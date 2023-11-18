@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Klm5PvQ4f/FYY1rKC25MrBWNZi2+9w+KLvK6NnDEX6i0fJrju/yAG2HWejCpPav6kn1G0YJKHREnNcNvR4UHHg==",
+  "dgSpecHash": "f0Wz820h7UrjpSwh5j9RCATo5w13grxIIQnT+3TUvbJnk71t9DlsnpViEldd/GuSDEhZNsWpYF+f4p4K5ezzBA==",
   "success": true,
-  "projectFilePath": "D:\\Hacking Tools\\Projects\\Enc Chat Server\\Enc Chat Server.csproj",
+  "projectFilePath": "D:\\Hacking Tools\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ahmed\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

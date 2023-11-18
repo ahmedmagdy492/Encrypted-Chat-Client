@@ -62,11 +62,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Hacking Tools\\Projects\\EncChatCommonLib\\EncChatCommonLib.csproj",
+      "projectUniqueName": "D:\\Hacking Tools\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj",
       "projectName": "EncChatCommonLib",
-      "projectPath": "D:\\Hacking Tools\\Projects\\EncChatCommonLib\\EncChatCommonLib.csproj",
+      "projectPath": "D:\\Hacking Tools\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj",
       "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
-      "outputPath": "D:\\Hacking Tools\\Projects\\EncChatCommonLib\\obj\\",
+      "outputPath": "D:\\Hacking Tools\\Projects\\Enc Chat\\EncChatCommonLib\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

@@ -8,6 +8,7 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using static System.Runtime.InteropServices.JavaScript.JSType;
 
     public class Program
     {
@@ -87,8 +88,32 @@
                         }
                     }
                 ));
-                Task.Delay(10000);
                 SendData(client.ConnectionID, dataToSend);
+
+                // sending to everyone else that someone has connected
+                var clientConnectedData = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
+                    new MessageObject
+                    {
+                        ClassName = "Form1",
+                        MethodName = "ReceiveClientConnectedMsg",
+                        MethodParams =
+                        {
+                            new Parameter
+                            {
+                                ParamName = "connectedClientConnectionId",
+                                ParamValue = client.ConnectionID
+                            }
+                        }
+                    }
+                ), Constants.SHARED_KEY);
+                
+                foreach(var c in clients)
+                {
+                    if(c.ConnectionID != client.ConnectionID)
+                    {
+                        SendData(c.ConnectionID, clientConnectedData);
+                    }
+                }
             }
 
             serverSocket.Close();
@@ -98,6 +123,31 @@
         {
             clients.Remove(client);
             LoggerService.LogError($"Client {client.ConnectionID} has disconnected");
+
+            // sending to everyone that someone has disconnected
+            var clientConnectedData = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
+                    new MessageObject
+                    {
+                        ClassName = "Form1",
+                        MethodName = "ReceiveClientDisconnectedMsg",
+                        MethodParams =
+                        {
+                            new Parameter
+                            {
+                                ParamName = "disconnectedClientConnectionId",
+                                ParamValue = client.ConnectionID
+                            }
+                        }
+                    }
+                ), Constants.SHARED_KEY);
+
+            foreach (var c in clients)
+            {
+                if (c.ConnectionID != client.ConnectionID)
+                {
+                    SendData(c.ConnectionID, clientConnectedData);
+                }
+            }
         }
 
         #region Actions
@@ -154,7 +204,7 @@
                         }
                     }
                 ), Constants.SHARED_KEY);
-                SendData(senderConnectionId, data);
+                SendData(receiverConnectionId, data);
             }
         }
 

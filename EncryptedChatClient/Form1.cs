@@ -127,6 +127,7 @@ namespace EncryptedChatClient
         private void CreateClientPanel(ClientModel client)
         {
             var panel = new FlowLayoutPanel();
+            panel.Tag = client.ConnectionId;
             panel.FlowDirection = FlowDirection.TopDown;
             panel.Height = 75;
             panel.Width = chatContainer.Width;
@@ -160,6 +161,17 @@ namespace EncryptedChatClient
             panel.Controls.Add(label);
             panel.Controls.Add(label2);
             chatContainer.Controls.Add(panel);
+        }
+
+        private void DeleteClientPanel(string connectionId)
+        {
+            foreach(Control control in chatContainer.Controls)
+            {
+                if(control.Tag.ToString() == connectionId)
+                {
+                    chatContainer.Controls.Remove(control);
+                }
+            }
         }
 
         private void AddMessageToChat(string msg, bool isMe, string otherConnectionId = null)
@@ -271,6 +283,24 @@ namespace EncryptedChatClient
             MethodInvoker methodInvokerDelegate = delegate ()
             {
                 AddMessageToChat(message, false, senderConnectionId);
+            };
+            Invoke(methodInvokerDelegate);
+        }
+        
+        public void ReceiveClientConnectedMsg(string connectedClientConnectionId)
+        {
+            MethodInvoker methodInvokerDelegate = delegate ()
+            {
+                CreateClientPanel(new ClientModel { ConnectionId = connectedClientConnectionId });
+            };
+            Invoke(methodInvokerDelegate);
+        }
+
+        public void ReceiveClientDisconnectedMsg(string disconnectedClientConnectionId)
+        {
+            MethodInvoker methodInvokerDelegate = delegate ()
+            {
+                DeleteClientPanel(disconnectedClientConnectionId);
             };
             Invoke(methodInvokerDelegate);
         }
