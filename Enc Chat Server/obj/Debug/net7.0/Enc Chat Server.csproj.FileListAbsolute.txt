@@ -1,0 +1,19 @@
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Enc Chat Server.exe
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Enc Chat Server.deps.json
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Enc Chat Server.runtimeconfig.json
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Enc Chat Server.dll
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Enc Chat Server.pdb
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.AssemblyInfoInputs.cache
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.AssemblyInfo.cs
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.csproj.CoreCompileInputs.cache
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.dll
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\refint\Enc Chat Server.dll
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.pdb
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.genruntimeconfig.cache
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\ref\Enc Chat Server.dll
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.csproj.AssemblyReference.cache
+D:\Hacking Tools\Projects\Enc Chat Server\obj\Debug\net7.0\Enc Chat Server.csproj.CopyComplete
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\EncChatCommonLib.dll
+D:\Hacking Tools\Projects\Enc Chat Server\bin\Debug\net7.0\EncChatCommonLib.pdb

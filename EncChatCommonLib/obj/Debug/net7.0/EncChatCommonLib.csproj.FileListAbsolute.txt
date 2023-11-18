@@ -1,0 +1,12 @@
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.AssemblyInfoInputs.cache
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.AssemblyInfo.cs
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.csproj.CoreCompileInputs.cache
+D:\Hacking Tools\Projects\EncChatCommonLib\bin\Debug\net7.0\EncChatCommonLib.deps.json
+D:\Hacking Tools\Projects\EncChatCommonLib\bin\Debug\net7.0\EncChatCommonLib.dll
+D:\Hacking Tools\Projects\EncChatCommonLib\bin\Debug\net7.0\EncChatCommonLib.pdb
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.csproj.AssemblyReference.cache
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.dll
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\refint\EncChatCommonLib.dll
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\EncChatCommonLib.pdb
+D:\Hacking Tools\Projects\EncChatCommonLib\obj\Debug\net7.0\ref\EncChatCommonLib.dll
