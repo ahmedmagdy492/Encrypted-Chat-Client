@@ -215,13 +215,50 @@
                             },
                             new Parameter
                             {
+                                ParamName = "name",
+                                ParamValue = senderCilent.ClientName
+                            },
+                            new Parameter
+                            {
                                 ParamName = "message",
                                 ParamValue = message
+                            }
+                        }
+                    }
+                ), Constants.SHARED_KEY);
+                SendData(receiverConnectionId, data);
+            }
+        }
+
+        public static void ClientSentImage(string senderConnectionId, string image, string receiverConnectionId)
+        {
+            var client = clients.FirstOrDefault(c => c.ConnectionID == receiverConnectionId);
+            var senderCilent = clients.FirstOrDefault(c => c.ConnectionID == senderConnectionId);
+            LoggerService.LogSuccess($"Client ({senderConnectionId}) sent an image message to Client ({receiverConnectionId})");
+
+            if (client != null)
+            {
+                var data = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
+                    new MessageObject
+                    {
+                        ClassName = "Form1",
+                        MethodName = "ReceiveImageFromClient",
+                        MethodParams =
+                        {
+                            new Parameter
+                            {
+                                ParamName = "senderConnectionId",
+                                ParamValue = senderConnectionId
                             },
                             new Parameter
                             {
                                 ParamName = "name",
                                 ParamValue = senderCilent.ClientName
+                            },
+                            new Parameter
+                            {
+                                ParamName = "image",
+                                ParamValue = image
                             }
                         }
                     }

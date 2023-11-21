@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Enc Chat Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cedce1eb22304509ee1554bc278f974813f96b9b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61bbc18ec89eb00f0c8f822780925ee44baeecb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Enc Chat Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Enc Chat Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

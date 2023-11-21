@@ -68,6 +68,7 @@ namespace EncryptedChatClient
                     this.Hide();
                     Form1 form = new Form1(loginViewModel.Email);
                     form.ShowDialog();
+                    btn.Enabled = true;
                 }
                 else
                 {

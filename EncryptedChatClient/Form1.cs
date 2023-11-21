@@ -2,14 +2,13 @@ using EcnryptedChatClient.Services;
 using EncChatCommonLib.Models;
 using EncChatCommonLib.Services;
 using EncryptedChatClient.Models;
-using MaterialSkin;
-using MaterialSkin.Controls;
 using Newtonsoft.Json;
 using System.Buffers.Text;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Forms;
 
 namespace EncryptedChatClient
 {
@@ -178,7 +177,9 @@ namespace EncryptedChatClient
             var panel = new FlowLayoutPanel();
             panel.Tag = client.ConnectionId;
             panel.Height = 75;
-            panel.Width = chatContainer.Width;
+            panel.Font = new Font("Segoe UI", 14, FontStyle.Regular);
+            panel.Width = chatContainer.Width - 10;
+            panel.BorderStyle = BorderStyle.FixedSingle;
             panel.Cursor = Cursors.Hand;
             var label = new Label();
             label.ForeColor = Color.Black;
@@ -187,16 +188,17 @@ namespace EncryptedChatClient
                 ChatHead_Click(sender, e, client);
             };
             label.Width = chatContainer.Width;
+            label.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             label.Height = 35;
             var label2 = new Label();
             label2.ForeColor = Color.Black;
+            label2.Font = new Font("Segoe UI", 12, FontStyle.Regular);
             label2.Click += (object sender, EventArgs e) =>
             {
                 ChatHead_Click(sender, e, client);
             };
             label2.Width = chatContainer.Width;
             label2.Height = 35;
-            label2.Font = new Font(this.Font.FontFamily, 14);
             label2.ForeColor = Color.DarkGray;
             label2.Text = "Click here to start chatting";
             if (client.ConnectionId == Form1.connectionId)
@@ -227,22 +229,51 @@ namespace EncryptedChatClient
         {
             var msgPanel = new FlowLayoutPanel();
             msgPanel.Width = chatMsgs.Width;
-            msgPanel.BackColor = Color.Transparent;
+            msgPanel.BackColor = isMe ? ColorTranslator.FromHtml("#d9fdd3") : Color.White;
+            msgPanel.AutoSize = true;
             var msgLabel = new Label();
-            if(string.IsNullOrWhiteSpace(otherConnectionId))
+            msgLabel.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+            if (string.IsNullOrWhiteSpace(otherConnectionId))
             {
-                msgLabel.Text = isMe ? $"You: {msg}": $"User{otherConnectionId.Substring(0, 4)}";
+                msgLabel.Text = isMe ? $"[You]\n{msg}" : $"[User{otherConnectionId.Substring(0, 4)}]\n {msg}";
             }
             else
             {
-                msgLabel.Text = isMe ? $"You: {msg}": $"{otherConnectionId}: {msg}";
+                msgLabel.Text = isMe ? $"[You]\n{msg}" : $"[{otherConnectionId}]\n {msg}";
             }
             msgLabel.AutoSize = true;
             msgLabel.Margin = new Padding(15);
-            msgPanel.RightToLeft = isMe ? RightToLeft.No : RightToLeft.Yes;
             msgPanel.Controls.Add(msgLabel);
             chatMsgs.Controls.Add(msgPanel);
-            chatMsgs.ScrollControlIntoView(msgPanel);
+            chatMsgs.ScrollControlIntoView(msgLabel);
+        }
+
+        private void AddImageToChat(string image, bool isMe, string otherConnectionId = null)
+        {
+            byte[] rawImage = Convert.FromBase64String(image);
+            var msgPanel = new FlowLayoutPanel();
+            msgPanel.Width = chatMsgs.Width;
+            msgPanel.BackColor = isMe ? ColorTranslator.FromHtml("#d9fdd3") : Color.White;
+            msgPanel.AutoSize = true;
+            var label = new Label();
+            label.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+            if (string.IsNullOrWhiteSpace(otherConnectionId))
+            {
+                label.Text = isMe ? $"[You]" : $"[User{otherConnectionId.Substring(0, 4)}]";
+            }
+            else
+            {
+                label.Text = isMe ? $"[You]" : $"[{otherConnectionId}]";
+            }
+
+            var pic = new PictureBox();
+            pic.Image = Image.FromStream(new MemoryStream(rawImage));
+            pic.SizeMode = PictureBoxSizeMode.StretchImage;
+            pic.Margin = new Padding(15);
+            msgPanel.Controls.Add(label);
+            msgPanel.Controls.Add(pic);
+            chatMsgs.Controls.Add(msgPanel);
+            chatMsgs.ScrollControlIntoView(pic);
         }
 
         private void ChatHead_Click(object sender, EventArgs e, ClientModel client)
@@ -311,7 +342,13 @@ namespace EncryptedChatClient
         {
             MethodInvoker methodInvokerDelegate = delegate ()
             {
-                AddMessageToChat(message, false, name);
+                if (senderConnectionId != ConnectionId && currentActiveConnectionId == senderConnectionId)
+                {
+                    AddMessageToChat(message, false, name);
+                    notifyIcon1.Text = $"{name} Sent You a Message";
+                    notifyIcon1.Icon = this.Icon;
+                    notifyIcon1.ShowBalloonTip(3000, "Enc Chat", $"{name} Sent You a Message", ToolTipIcon.None);
+                }
             };
             Invoke(methodInvokerDelegate);
         }
@@ -321,6 +358,21 @@ namespace EncryptedChatClient
             MethodInvoker methodInvokerDelegate = delegate ()
             {
                 CreateClientPanel(new ClientModel { ConnectionId = connectedClientConnectionId, Name = clientName });
+            };
+            Invoke(methodInvokerDelegate);
+        }
+
+        public void ReceiveImageFromClient(string senderConnectionId, string name, string image)
+        {
+            MethodInvoker methodInvokerDelegate = delegate ()
+            {
+                if (senderConnectionId != ConnectionId && currentActiveConnectionId == senderConnectionId)
+                {
+                    AddImageToChat(image, false, name);
+                    notifyIcon1.Text = $"{name} Sent You a Message";
+                    notifyIcon1.Icon = this.Icon;
+                    notifyIcon1.ShowBalloonTip(3000, "Enc Chat", $"{name} Sent You a Message", ToolTipIcon.None);
+                }
             };
             Invoke(methodInvokerDelegate);
         }
@@ -337,11 +389,64 @@ namespace EncryptedChatClient
 
         private async void txtToSend_KeyDown(object sender, KeyEventArgs e)
         {
-            switch(e.KeyCode)
+            switch (e.KeyCode)
             {
                 case Keys.Enter:
                     await SendMsg();
                     break;
+            }
+        }
+
+        private async void btnSendImage_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                var result = ofd.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    string fileName = ofd.FileName;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    if (fileInfo.Exists && fileInfo.Length <= 4096 && fileInfo.Extension == ".png")
+                    {
+                        // max file size 4 kb
+                        string base64 = Convert.ToBase64String(File.ReadAllBytes(fileName));
+
+                        var data = _encryptionService.EncryptSymmetericlly(
+                             JsonConvert.SerializeObject(new MessageObject
+                             {
+                                 ClassName = "Program",
+                                 MethodName = "ClientSentImage",
+                                 MethodParams =
+                                 {
+                                    new Parameter
+                                    {
+                                        ParamName = "senderConnectionId",
+                                        ParamValue = connectionId,
+                                    },
+                                    new Parameter
+                                    {
+                                        ParamName = "image",
+                                        ParamValue = base64,
+                                    },
+                                    new Parameter
+                                    {
+                                        ParamName = "receiverConnectionId",
+                                        ParamValue = currentActiveConnectionId
+                                    }
+                                 }
+                             })
+                 , Form1.encryptionKey);
+                        btnSendImage.Enabled = false;
+                        await SendData(data);
+                        AddImageToChat(base64, true); ;
+                        btnSendImage.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid image format");
+                    }
+                }
             }
         }
     }
