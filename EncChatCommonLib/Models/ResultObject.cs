@@ -5,9 +5,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EncryptedChatClient.Models
+namespace EncChatCommonLib.Models
 {
-    internal class ResultObject
+    public class ResultObject
     {
         public HttpStatusCode StatusCode { get; set; }
         public string Result { get; set; }

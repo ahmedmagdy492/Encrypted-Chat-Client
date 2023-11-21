@@ -14,9 +14,20 @@
         private static EncryptionService encryptionService = new EncryptionService();
         private static MessageInterpreter messageInterpreter = new MessageInterpreter(encryptionService);
         private static Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        
+        private static IClientsService clientService = new ClientsService();
+        private static int currentPageNo = 1;
+
         private static bool isRunning = false;
         private const int PORT = Constants.PORT;
         private static List<Client> clients = new List<Client>();
+        private static List<User> users = new List<User>();
+
+        static Program() {
+            const int pageSize = 100;
+            users = clientService.GetUsers(currentPageNo, pageSize).Result;
+            currentPageNo += pageSize;
+        }
 
         public static Task SendData(string connectionId, byte[] dataToSend)
         {
@@ -88,31 +99,6 @@
                     }
                 ));
                 SendData(client.ConnectionID, dataToSend);
-
-                // sending to everyone else that someone has connected
-                var clientConnectedData = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
-                    new MessageObject
-                    {
-                        ClassName = "Form1",
-                        MethodName = "ReceiveClientConnectedMsg",
-                        MethodParams =
-                        {
-                            new Parameter
-                            {
-                                ParamName = "connectedClientConnectionId",
-                                ParamValue = client.ConnectionID
-                            }
-                        }
-                    }
-                ), Constants.SHARED_KEY);
-                
-                foreach(var c in clients)
-                {
-                    if(c.ConnectionID != client.ConnectionID)
-                    {
-                        SendData(c.ConnectionID, clientConnectedData);
-                    }
-                }
             }
 
             serverSocket.Close();
@@ -150,13 +136,44 @@
         }
 
         #region Actions
-        public static void GetConnectedClients(string clientConnectionId)
+        public static void GetConnectedClients(string clientConnectionId, string email)
         {
             var client = clients.FirstOrDefault(c => c.ConnectionID == clientConnectionId);
-            LoggerService.LogSuccess($"Received GetConnectedClients Message from client: {clientConnectionId}");
+            client.ClientName = users.FirstOrDefault(c => c.Email == email)?.Name;
+            LoggerService.LogSuccess($"Received GetConnectedClients Message from client: {email}");
 
             if(client != null)
             {
+                // sending to everyone else that someone has connected
+                var clientConnectedData = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
+                    new MessageObject
+                    {
+                        ClassName = "Form1",
+                        MethodName = "ReceiveClientConnectedMsg",
+                        MethodParams =
+                        {
+                            new Parameter
+                            {
+                                ParamName = "connectedClientConnectionId",
+                                ParamValue = client.ConnectionID
+                            },
+                            new Parameter
+                            {
+                                ParamName = "clientName",
+                                ParamValue = client.ClientName
+                            }
+                        }
+                    }
+                ), Constants.SHARED_KEY);
+
+                foreach (var c in clients)
+                {
+                    if (c.ConnectionID != client.ConnectionID)
+                    {
+                        SendData(c.ConnectionID, clientConnectedData);
+                    }
+                }
+
                 var data = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
                     new MessageObject
                     {
@@ -167,7 +184,7 @@
                             new Parameter
                             {
                                 ParamName = "clients",
-                                ParamValue = JsonConvert.SerializeObject(clients.Select(c => new { ConnectionId = c.ConnectionID }).ToList())
+                                ParamValue = JsonConvert.SerializeObject(clients.Select(c => new { ConnectionId = c.ConnectionID, Name = c.ClientName }).ToList())
                             }
                         }
                     }
@@ -179,6 +196,7 @@
         public static void ClientSentMessage(string senderConnectionId, string message, string receiverConnectionId)
         {
             var client = clients.FirstOrDefault(c => c.ConnectionID == receiverConnectionId);
+            var senderCilent = clients.FirstOrDefault(c => c.ConnectionID == senderConnectionId);
             LoggerService.LogSuccess($"Client ({senderConnectionId}) sent a message to Client ({receiverConnectionId})");
 
             if (client != null)
@@ -200,6 +218,11 @@
                                 ParamName = "message",
                                 ParamValue = message
                             },
+                            new Parameter
+                            {
+                                ParamName = "name",
+                                ParamValue = senderCilent.ClientName
+                            }
                         }
                     }
                 ), Constants.SHARED_KEY);

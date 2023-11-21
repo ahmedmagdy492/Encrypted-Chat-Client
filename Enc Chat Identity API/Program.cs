@@ -15,6 +15,13 @@ app.MapGet("/users/{id}", async (long id, EncChatDB db)
     ? Results.Ok(new { user.Id, user.Name, user.Email })
     : Results.NotFound());
 
+app.MapGet("/users/{pageNo}/{pageSize}", async (int pageNo, int pageSize, EncChatDB db) =>
+{
+    int pagesToSkip = (pageNo - 1) * pageSize;
+    var users = await db.Users.Select(u => new { u.Name, u.Email }).OrderBy(o => o.Name).Skip(pagesToSkip).Take(pageSize).ToListAsync();
+    return Results.Ok(users);
+});
+
 app.MapPost("/login", async (LoginViewModel loginViewModel, EncChatDB db) =>
 {
     var user = await db.Users.FirstOrDefaultAsync(u => u.Email == loginViewModel.Email);

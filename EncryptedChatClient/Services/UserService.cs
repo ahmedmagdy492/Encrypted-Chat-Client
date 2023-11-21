@@ -14,7 +14,7 @@ namespace EncryptedChatClient.Services
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri(Constants.IDENTITY_API_BASE_URL)
+                BaseAddress = new Uri(SharedConstants.IDENTITY_API_BASE_URL)
             };
         }
 

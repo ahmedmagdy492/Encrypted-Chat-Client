@@ -12,6 +12,7 @@ namespace Enc_Chat_Server.Models
         private bool isRunning = false;
 
         public string ConnectionID { get; set; }
+        public string ClientName { get; set; }
         public Socket ClientSocket { get; set; }
 
         public Client(MessageInterpreter messageInterpreter)

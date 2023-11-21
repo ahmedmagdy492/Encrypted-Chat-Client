@@ -2,9 +2,12 @@ using EcnryptedChatClient.Services;
 using EncChatCommonLib.Models;
 using EncChatCommonLib.Services;
 using EncryptedChatClient.Models;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using Newtonsoft.Json;
 using System.Buffers.Text;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
@@ -19,7 +22,9 @@ namespace EncryptedChatClient
         private static string currentActiveConnectionId = "";
         private static byte[] encryptionKey;
         private static string connectionId;
-        private static string ConnectionId { 
+        private string email;
+        private static string ConnectionId
+        {
             get
             {
                 return connectionId;
@@ -34,8 +39,9 @@ namespace EncryptedChatClient
         }
         private static List<ClientModel> connectedClients = new List<ClientModel>();
 
-        public Form1()
+        public Form1(string email)
         {
+            this.email = email;
             InitializeComponent();
         }
 
@@ -68,6 +74,43 @@ namespace EncryptedChatClient
         private async Task SendData(byte[] data)
         {
             await _clientSocket.SendAsync(new ArraySegment<byte>(data));
+        }
+
+        private async Task SendMsg()
+        {
+            if (string.IsNullOrWhiteSpace(txtToSend.Text))
+                return;
+
+            var data = _encryptionService.EncryptSymmetericlly(
+                 JsonConvert.SerializeObject(new MessageObject
+                 {
+                     ClassName = "Program",
+                     MethodName = "ClientSentMessage",
+                     MethodParams =
+                     {
+                        new Parameter
+                        {
+                            ParamName = "senderConnectionId",
+                            ParamValue = connectionId,
+                        },
+                        new Parameter
+                        {
+                            ParamName = "message",
+                            ParamValue = txtToSend.Text,
+                        },
+                        new Parameter
+                        {
+                            ParamName = "receiverConnectionId",
+                            ParamValue = currentActiveConnectionId
+                        }
+                     }
+                 })
+                 , Form1.encryptionKey);
+            btnSend.Enabled = false;
+            await SendData(data);
+            btnSend.Enabled = true;
+            AddMessageToChat(txtToSend.Text, true);
+            txtToSend.Text = "";
         }
         #endregion
 
@@ -122,7 +165,7 @@ namespace EncryptedChatClient
             }
             catch { }
 
-            if(Application.OpenForms.Count > 0)
+            if (Application.OpenForms.Count > 0)
             {
                 Application.OpenForms[0].Show();
             }
@@ -133,12 +176,9 @@ namespace EncryptedChatClient
         private void CreateClientPanel(ClientModel client)
         {
             var panel = new FlowLayoutPanel();
-            panel.BackColor = Color.Transparent;
             panel.Tag = client.ConnectionId;
-            panel.FlowDirection = FlowDirection.TopDown;
             panel.Height = 75;
             panel.Width = chatContainer.Width;
-            panel.BorderStyle = BorderStyle.FixedSingle;
             panel.Cursor = Cursors.Hand;
             var label = new Label();
             label.ForeColor = Color.Black;
@@ -165,7 +205,7 @@ namespace EncryptedChatClient
             }
             else
             {
-                label.Text = client.ConnectionId;
+                label.Text = client.Name;
             }
             panel.Controls.Add(label);
             panel.Controls.Add(label2);
@@ -174,9 +214,9 @@ namespace EncryptedChatClient
 
         private void DeleteClientPanel(string connectionId)
         {
-            foreach(Control control in chatContainer.Controls)
+            foreach (Control control in chatContainer.Controls)
             {
-                if(control.Tag.ToString() == connectionId)
+                if (control.Tag.ToString() == connectionId)
                 {
                     chatContainer.Controls.Remove(control);
                 }
@@ -189,7 +229,14 @@ namespace EncryptedChatClient
             msgPanel.Width = chatMsgs.Width;
             msgPanel.BackColor = Color.Transparent;
             var msgLabel = new Label();
-            msgLabel.Text = isMe ? $"You: {msg}" : $"{otherConnectionId}: {msg}";
+            if(string.IsNullOrWhiteSpace(otherConnectionId))
+            {
+                msgLabel.Text = isMe ? $"You: {msg}": $"User{otherConnectionId.Substring(0, 4)}";
+            }
+            else
+            {
+                msgLabel.Text = isMe ? $"You: {msg}": $"{otherConnectionId}: {msg}";
+            }
             msgLabel.AutoSize = true;
             msgLabel.Margin = new Padding(15);
             msgPanel.RightToLeft = isMe ? RightToLeft.No : RightToLeft.Yes;
@@ -205,7 +252,7 @@ namespace EncryptedChatClient
             if (client.ConnectionId == connectionId)
                 txtPersonName.Text = "Me";
             else
-                txtPersonName.Text = client.ConnectionId;
+                txtPersonName.Text = client.Name;
 
             conversationCotnainer.Visible = true;
             chatMsgs.Controls.Clear();
@@ -213,39 +260,7 @@ namespace EncryptedChatClient
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtToSend.Text))
-                return;
-
-            var data = _encryptionService.EncryptSymmetericlly(
-                 JsonConvert.SerializeObject(new MessageObject
-                 {
-                     ClassName = "Program",
-                     MethodName = "ClientSentMessage",
-                     MethodParams =
-                     {
-                        new Parameter
-                        {
-                            ParamName = "senderConnectionId",
-                            ParamValue = connectionId,
-                        },
-                        new Parameter
-                        {
-                            ParamName = "message",
-                            ParamValue = txtToSend.Text,
-                        },
-                        new Parameter
-                        {
-                            ParamName = "receiverConnectionId",
-                            ParamValue = currentActiveConnectionId
-                        }
-                     }
-                 })
-                 , Form1.encryptionKey);
-            btnSend.Enabled = false;
-            await SendData(data);
-            btnSend.Enabled = true;
-            AddMessageToChat(txtToSend.Text, true);
-            txtToSend.Text = "";
+            await SendMsg();
         }
 
         #region Actions
@@ -266,6 +281,11 @@ namespace EncryptedChatClient
                         {
                             ParamName = "clientConnectionId",
                             ParamValue = connectionId,
+                        },
+                        new Parameter
+                        {
+                            ParamName = "email",
+                            ParamValue = email
                         }
                     }
                 })
@@ -287,20 +307,20 @@ namespace EncryptedChatClient
             }
         }
 
-        public void ReceiveMessageFromClient(string senderConnectionId, string message)
+        public void ReceiveMessageFromClient(string senderConnectionId, string name, string message)
         {
             MethodInvoker methodInvokerDelegate = delegate ()
             {
-                AddMessageToChat(message, false, senderConnectionId);
+                AddMessageToChat(message, false, name);
             };
             Invoke(methodInvokerDelegate);
         }
-        
-        public void ReceiveClientConnectedMsg(string connectedClientConnectionId)
+
+        public void ReceiveClientConnectedMsg(string connectedClientConnectionId, string clientName)
         {
             MethodInvoker methodInvokerDelegate = delegate ()
             {
-                CreateClientPanel(new ClientModel { ConnectionId = connectedClientConnectionId });
+                CreateClientPanel(new ClientModel { ConnectionId = connectedClientConnectionId, Name = clientName });
             };
             Invoke(methodInvokerDelegate);
         }
@@ -314,5 +334,15 @@ namespace EncryptedChatClient
             Invoke(methodInvokerDelegate);
         }
         #endregion
+
+        private async void txtToSend_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.Enter:
+                    await SendMsg();
+                    break;
+            }
+        }
     }
 }

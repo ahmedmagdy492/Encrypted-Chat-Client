@@ -52,7 +52,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(295, 588);
+            panel1.Size = new Size(295, 611);
             panel1.TabIndex = 2;
             // 
             // chatContainer
@@ -63,7 +63,7 @@
             chatContainer.FlowDirection = FlowDirection.TopDown;
             chatContainer.Location = new Point(0, 0);
             chatContainer.Name = "chatContainer";
-            chatContainer.Size = new Size(295, 588);
+            chatContainer.Size = new Size(295, 611);
             chatContainer.TabIndex = 1;
             // 
             // conversationCotnainer
@@ -72,7 +72,7 @@
             conversationCotnainer.Dock = DockStyle.Fill;
             conversationCotnainer.Location = new Point(295, 0);
             conversationCotnainer.Name = "conversationCotnainer";
-            conversationCotnainer.Size = new Size(841, 588);
+            conversationCotnainer.Size = new Size(841, 611);
             conversationCotnainer.TabIndex = 3;
             conversationCotnainer.Visible = false;
             // 
@@ -84,7 +84,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(841, 588);
+            panel2.Size = new Size(841, 611);
             panel2.TabIndex = 0;
             // 
             // panel3
@@ -93,7 +93,7 @@
             panel3.Controls.Add(txtToSend);
             panel3.Controls.Add(btnSend);
             panel3.Dock = DockStyle.Bottom;
-            panel3.Location = new Point(0, 510);
+            panel3.Location = new Point(0, 533);
             panel3.Name = "panel3";
             panel3.Size = new Size(841, 78);
             panel3.TabIndex = 3;
@@ -101,11 +101,13 @@
             // txtToSend
             // 
             txtToSend.BorderStyle = BorderStyle.None;
-            txtToSend.Location = new Point(30, 24);
+            txtToSend.Location = new Point(30, 18);
             txtToSend.Margin = new Padding(16, 12, 16, 12);
+            txtToSend.Multiline = true;
             txtToSend.Name = "txtToSend";
-            txtToSend.Size = new Size(711, 31);
+            txtToSend.Size = new Size(711, 48);
             txtToSend.TabIndex = 2;
+            txtToSend.KeyDown += txtToSend_KeyDown;
             // 
             // btnSend
             // 
@@ -131,7 +133,7 @@
             chatMsgs.FlowDirection = FlowDirection.TopDown;
             chatMsgs.Location = new Point(0, 45);
             chatMsgs.Name = "chatMsgs";
-            chatMsgs.Size = new Size(841, 543);
+            chatMsgs.Size = new Size(841, 566);
             chatMsgs.TabIndex = 2;
             chatMsgs.WrapContents = false;
             // 
@@ -161,12 +163,13 @@
             AutoScaleDimensions = new SizeF(16F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1136, 588);
+            ClientSize = new Size(1136, 611);
             Controls.Add(conversationCotnainer);
             Controls.Add(panel1);
             Font = new Font("Microsoft Sans Serif", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enc Chat";

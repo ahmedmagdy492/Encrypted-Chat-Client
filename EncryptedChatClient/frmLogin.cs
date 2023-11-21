@@ -66,7 +66,7 @@ namespace EncryptedChatClient
                 if(response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     this.Hide();
-                    Form1 form = new Form1();
+                    Form1 form = new Form1(loginViewModel.Email);
                     form.ShowDialog();
                 }
                 else
