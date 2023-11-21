@@ -74,26 +74,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ahmed\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Ahmed\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Hacking Tools\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
+      "projectUniqueName": "D:\\Dev\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
       "projectName": "Enc Chat Server",
-      "projectPath": "D:\\Hacking Tools\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
+      "projectPath": "D:\\Dev\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
       "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
-      "outputPath": "D:\\Hacking Tools\\Projects\\Enc Chat\\Enc Chat Server\\obj\\",
+      "outputPath": "D:\\Dev\\Projects\\Enc Chat\\Enc Chat Server\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\Ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -107,8 +100,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Hacking Tools\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj": {
-              "projectPath": "D:\\Hacking Tools\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj"
+            "D:\\Dev\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj": {
+              "projectPath": "D:\\Dev\\Projects\\Enc Chat\\EncChatCommonLib\\EncChatCommonLib.csproj"
             }
           }
         }
@@ -144,7 +137,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

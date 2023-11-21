@@ -52,7 +52,7 @@ namespace EcnryptedChatClient.Services
                 methodParams[counter++] = parameter.ParamValue;
             }
 
-            classObj.GetMethod(msgObj.MethodName).Invoke(Application.OpenForms[0], methodParams.Length > 0 ? methodParams : null);
+            classObj.GetMethod(msgObj.MethodName).Invoke(Application.OpenForms[1], methodParams.Length > 0 ? methodParams : null);
         }
     }
 }

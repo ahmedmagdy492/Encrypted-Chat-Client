@@ -116,17 +116,24 @@ namespace EncryptedChatClient
                     }
                 ), encryptionKey);
                 await SendData(encryptedData);
+
+                isRunning = false;
+                _clientSocket.Close();
             }
             catch { }
 
-            isRunning = false;
-            _clientSocket.Close();
+            if(Application.OpenForms.Count > 0)
+            {
+                Application.OpenForms[0].Show();
+            }
+
             base.OnFormClosing(e);
         }
 
         private void CreateClientPanel(ClientModel client)
         {
             var panel = new FlowLayoutPanel();
+            panel.BackColor = Color.Transparent;
             panel.Tag = client.ConnectionId;
             panel.FlowDirection = FlowDirection.TopDown;
             panel.Height = 75;
@@ -134,6 +141,7 @@ namespace EncryptedChatClient
             panel.BorderStyle = BorderStyle.FixedSingle;
             panel.Cursor = Cursors.Hand;
             var label = new Label();
+            label.ForeColor = Color.Black;
             label.Click += (object sender, EventArgs e) =>
             {
                 ChatHead_Click(sender, e, client);
@@ -141,6 +149,7 @@ namespace EncryptedChatClient
             label.Width = chatContainer.Width;
             label.Height = 35;
             var label2 = new Label();
+            label2.ForeColor = Color.Black;
             label2.Click += (object sender, EventArgs e) =>
             {
                 ChatHead_Click(sender, e, client);
@@ -178,11 +187,11 @@ namespace EncryptedChatClient
         {
             var msgPanel = new FlowLayoutPanel();
             msgPanel.Width = chatMsgs.Width;
+            msgPanel.BackColor = Color.Transparent;
             var msgLabel = new Label();
             msgLabel.Text = isMe ? $"You: {msg}" : $"{otherConnectionId}: {msg}";
             msgLabel.AutoSize = true;
             msgLabel.Margin = new Padding(15);
-            msgLabel.BorderStyle = BorderStyle.FixedSingle;
             msgPanel.RightToLeft = isMe ? RightToLeft.No : RightToLeft.Yes;
             msgPanel.Controls.Add(msgLabel);
             chatMsgs.Controls.Add(msgPanel);

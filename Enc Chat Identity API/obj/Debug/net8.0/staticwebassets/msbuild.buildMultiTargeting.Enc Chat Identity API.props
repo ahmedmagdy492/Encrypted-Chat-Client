@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Enc Chat Identity API.props" />
+</Project>
