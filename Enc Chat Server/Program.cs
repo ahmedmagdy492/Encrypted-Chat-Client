@@ -93,7 +93,7 @@
                             new Parameter
                             {
                                 ParamName = "encryptionKey",
-                                ParamValue = encryptionService.Encrypt(Constants.SHARED_KEY, Constants.PUBLIC_KEY_XML)
+                                ParamValue = encryptionService.Encrypt(SharedConstants.SHARED_KEY, Constants.PUBLIC_KEY_XML)
                             }
                         }
                     }
@@ -124,7 +124,7 @@
                             }
                         }
                     }
-                ), Constants.SHARED_KEY);
+                ), SharedConstants.SHARED_KEY);
 
             foreach (var c in clients)
             {
@@ -164,7 +164,7 @@
                             }
                         }
                     }
-                ), Constants.SHARED_KEY);
+                ), SharedConstants.SHARED_KEY);
 
                 foreach (var c in clients)
                 {
@@ -188,7 +188,7 @@
                             }
                         }
                     }
-                ), Constants.SHARED_KEY);
+                ), SharedConstants.SHARED_KEY);
                 SendData(clientConnectionId, data);
             }
         }
@@ -225,7 +225,7 @@
                             }
                         }
                     }
-                ), Constants.SHARED_KEY);
+                ), SharedConstants.SHARED_KEY);
                 SendData(receiverConnectionId, data);
             }
         }
@@ -262,7 +262,7 @@
                             }
                         }
                     }
-                ), Constants.SHARED_KEY);
+                ), SharedConstants.SHARED_KEY);
                 SendData(receiverConnectionId, data);
             }
         }
@@ -275,6 +275,13 @@
             {
                 OnClientDisconnect(client);
             }
+        }
+
+        public static void UserAccountCreated(string userStr)
+        {
+            User user = JsonConvert.DeserializeObject<User>(userStr);
+            users.Add(user);
+            LoggerService.LogSuccess($"User {user.Name} has just created an account");
         }
         #endregion
 

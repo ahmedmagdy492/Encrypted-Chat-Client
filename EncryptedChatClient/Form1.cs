@@ -48,7 +48,7 @@ namespace EncryptedChatClient
         {
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            return _clientSocket.ConnectAsync(new IPEndPoint(new IPAddress(Constants.SERVER_IPV4), Constants.SERVER_PORT));
+            return _clientSocket.ConnectAsync(new IPEndPoint(new IPAddress(SharedConstants.SERVER_IPV4), SharedConstants.SERVER_PORT));
         }
 
         #region Util Functions

@@ -37,8 +37,8 @@ namespace Enc_Chat_Server.Services
         {
             string msgStr;
 
-            if(IsDataEncrypted(message, Constants.SHARED_KEY))
-                msgStr = _encryptionService.DecryptSymmetericlly(message, Constants.SHARED_KEY);
+            if(IsDataEncrypted(message, SharedConstants.SHARED_KEY))
+                msgStr = _encryptionService.DecryptSymmetericlly(message, SharedConstants.SHARED_KEY);
             else
                 msgStr = Encoding.ASCII.GetString(message);
 

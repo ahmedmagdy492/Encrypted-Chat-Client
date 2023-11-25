@@ -3,12 +3,17 @@ using EncChatCommonLib.Models;
 using EncChatCommonLib.Services;
 using EncChatCommonLib.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EncChatDB>(opt => opt.UseSqlite("Data Source=accounts.db;Mode=ReadWriteCreate;Cache=Shared"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<IHashingService, HashingService>();
 var app = builder.Build();
+var encryptionService = new EncryptionService();
 
 app.MapGet("/users/{id}", async (long id, EncChatDB db) 
     => await db.Users.FindAsync() is User user 
@@ -40,6 +45,35 @@ app.MapPost("/signup", async (User user, EncChatDB db) =>
 
     db.Users.Add(user);
     await db.SaveChangesAsync();
+
+    var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+    try
+    {
+        await socket.ConnectAsync(new IPEndPoint(new IPAddress(SharedConstants.SERVER_IPV4), SharedConstants.SERVER_PORT));
+
+        if (socket.Connected)
+        {
+            var data = encryptionService.EncryptSymmetericlly(JsonConvert.SerializeObject(
+                new MessageObject
+                {
+                    ClassName = "Program",
+                    MethodName = "UserAccountCreated",
+                    MethodParams = new List<Parameter> {
+                    new Parameter
+                    {
+                        ParamName = "user",
+                        ParamValue = JsonConvert.SerializeObject(user)
+                    }
+                    }
+                }
+                ), SharedConstants.SHARED_KEY);
+            await socket.SendAsync(data);
+
+            socket.Close();
+        }
+    }
+    catch { }
 
     return Results.Created($"/users/{user.Id}", user);
 });

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Zs9+d5iDtpLIm77W8CtZIpVbok+nLMOTtrjd9aRScXidUJrElkIgW/gG06br+s+q03M79Jd9jB8isemSeMRZpg==",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\Projects\\Enc Chat\\Enc Chat Server\\Enc Chat Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ahmed\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
