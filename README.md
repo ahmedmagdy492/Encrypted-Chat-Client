@@ -12,11 +12,20 @@ Is a windows app made using C#, the project consist of 3 main parts; the server,
   <li>Ability to send images (limited to only png and 4 kb images)</li>
 </ul>
 
+<h3>Things to added</h3>
+<ul>
+  <li>Now the app is capabable of saving messages on the user computer not on the server</li>
+  <li>Now when someone is registered using the api the server will be notified and will add that user to the users list</li>
+</ul>
+
+<h3>Things to note</h3>
+<ul>
+  <li>The server has no information about the messages and how it's being saved</li>
+</ul>
+
 <h3>Things to consider</h3>
 <ul>
-  <li>Currently there is no databsae for storing messages</li>
   <li>Windows notifications do nothing when clicked</li>
-  <li>When a brand new person has just registered the server has to be restarted in order for it to read the data for the newly registered user (the current implementation will display the word user concatinated with part of the connection id)</li>
   <li>The image sending feature is so limited specially when it comes to the technique used behind the scene to send the image (which just encodes the image bytes into base64 format and send it) which does not use any type of compression</li>
   <li>There is no ability for the user to change his profile info</li>
   <li>No datetime associated with each message that is being sent</li>
