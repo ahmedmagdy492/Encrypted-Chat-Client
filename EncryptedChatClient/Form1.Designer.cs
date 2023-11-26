@@ -35,6 +35,8 @@
             conversationCotnainer = new Panel();
             panel2 = new Panel();
             panel3 = new Panel();
+            panel7 = new Panel();
+            btnSendImage = new Button();
             panel5 = new Panel();
             btnSend = new Button();
             panel4 = new Panel();
@@ -45,16 +47,14 @@
             label1 = new Label();
             txtPersonName = new Label();
             notifyIcon1 = new NotifyIcon(components);
-            panel7 = new Panel();
-            btnSendImage = new Button();
             panel1.SuspendLayout();
             conversationCotnainer.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
+            panel7.SuspendLayout();
             panel5.SuspendLayout();
             panel4.SuspendLayout();
             panelPersonName.SuspendLayout();
-            panel7.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -77,7 +77,7 @@
             chatContainer.Margin = new Padding(3, 4, 3, 4);
             chatContainer.Name = "chatContainer";
             chatContainer.Size = new Size(330, 713);
-            chatContainer.TabIndex = 1;
+            chatContainer.TabIndex = 3;
             // 
             // conversationCotnainer
             // 
@@ -114,6 +114,31 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(886, 77);
             panel3.TabIndex = 3;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(btnSendImage);
+            panel7.Location = new Point(798, 13);
+            panel7.Margin = new Padding(3, 4, 3, 4);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(56, 44);
+            panel7.TabIndex = 6;
+            // 
+            // btnSendImage
+            // 
+            btnSendImage.BackColor = Color.FromArgb(0, 128, 105);
+            btnSendImage.Dock = DockStyle.Fill;
+            btnSendImage.FlatAppearance.BorderColor = Color.FromArgb(240, 242, 245);
+            btnSendImage.FlatAppearance.BorderSize = 0;
+            btnSendImage.FlatStyle = FlatStyle.Flat;
+            btnSendImage.Image = (Image)resources.GetObject("btnSendImage.Image");
+            btnSendImage.Location = new Point(0, 0);
+            btnSendImage.Margin = new Padding(3, 14, 3, 4);
+            btnSendImage.Name = "btnSendImage";
+            btnSendImage.Size = new Size(56, 44);
+            btnSendImage.TabIndex = 4;
+            btnSendImage.UseVisualStyleBackColor = false;
+            btnSendImage.Click += btnSendImage_Click;
             // 
             // panel5
             // 
@@ -156,9 +181,8 @@
             txtToSend.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             txtToSend.Location = new Point(0, 0);
             txtToSend.Margin = new Padding(15, 14, 15, 14);
-            txtToSend.Multiline = true;
             txtToSend.Name = "txtToSend";
-            txtToSend.Size = new Size(701, 45);
+            txtToSend.Size = new Size(701, 29);
             txtToSend.TabIndex = 3;
             txtToSend.KeyDown += txtToSend_KeyDown;
             // 
@@ -226,31 +250,6 @@
             notifyIcon1.Text = "New Message";
             notifyIcon1.Visible = true;
             // 
-            // panel7
-            // 
-            panel7.Controls.Add(btnSendImage);
-            panel7.Location = new Point(798, 13);
-            panel7.Margin = new Padding(3, 4, 3, 4);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(56, 44);
-            panel7.TabIndex = 6;
-            // 
-            // btnSendImage
-            // 
-            btnSendImage.BackColor = Color.FromArgb(0, 128, 105);
-            btnSendImage.Dock = DockStyle.Fill;
-            btnSendImage.FlatAppearance.BorderColor = Color.FromArgb(240, 242, 245);
-            btnSendImage.FlatAppearance.BorderSize = 0;
-            btnSendImage.FlatStyle = FlatStyle.Flat;
-            btnSendImage.Image = (Image)resources.GetObject("btnSendImage.Image");
-            btnSendImage.Location = new Point(0, 0);
-            btnSendImage.Margin = new Padding(3, 14, 3, 4);
-            btnSendImage.Name = "btnSendImage";
-            btnSendImage.Size = new Size(56, 44);
-            btnSendImage.TabIndex = 4;
-            btnSendImage.UseVisualStyleBackColor = false;
-            btnSendImage.Click += btnSendImage_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(15F, 37F);
@@ -271,18 +270,17 @@
             conversationCotnainer.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel3.ResumeLayout(false);
+            panel7.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             panelPersonName.ResumeLayout(false);
             panelPersonName.PerformLayout();
-            panel7.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
         private Panel panel1;
-        private FlowLayoutPanel chatContainer;
         private Panel conversationCotnainer;
         private Panel panel2;
         private Panel panelPersonName;
@@ -298,5 +296,6 @@
         private NotifyIcon notifyIcon1;
         private Panel panel7;
         private Button btnSendImage;
+        private FlowLayoutPanel chatContainer;
     }
 }

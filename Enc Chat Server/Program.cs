@@ -139,7 +139,8 @@
         public static void GetConnectedClients(string clientConnectionId, string email)
         {
             var client = clients.FirstOrDefault(c => c.ConnectionID == clientConnectionId);
-            client.ClientName = users.FirstOrDefault(c => c.Email == email)?.Name;
+            var user = users.FirstOrDefault(c => c.Email == email);
+            client.ClientName = user?.Name;
             LoggerService.LogSuccess($"Received GetConnectedClients Message from client: {email}");
 
             if(client != null)
@@ -161,6 +162,11 @@
                             {
                                 ParamName = "clientName",
                                 ParamValue = client.ClientName
+                            },
+                            new Parameter
+                            {
+                                ParamName = "userId",
+                                ParamValue = user.Id
                             }
                         }
                     }
@@ -184,7 +190,7 @@
                             new Parameter
                             {
                                 ParamName = "clients",
-                                ParamValue = JsonConvert.SerializeObject(clients.Select(c => new { ConnectionId = c.ConnectionID, Name = c.ClientName }).ToList())
+                                ParamValue = JsonConvert.SerializeObject(clients.Select(c => new { ConnectionId = c.ConnectionID, Name = c.ClientName, UserId = user.Id }).ToList())
                             }
                         }
                     }
@@ -193,7 +199,7 @@
             }
         }
 
-        public static void ClientSentMessage(string senderConnectionId, string message, string receiverConnectionId)
+        public static void ClientSentMessage(string senderConnectionId, string message, string receiverConnectionId, string senderUserId, string receiverUserId)
         {
             var client = clients.FirstOrDefault(c => c.ConnectionID == receiverConnectionId);
             var senderCilent = clients.FirstOrDefault(c => c.ConnectionID == senderConnectionId);
@@ -222,6 +228,16 @@
                             {
                                 ParamName = "message",
                                 ParamValue = message
+                            },
+                            new Parameter
+                            { 
+                                ParamName = "senderUserId",
+                                ParamValue = senderUserId
+                            },
+                            new Parameter
+                            {
+                                ParamName = "receiverUserId",
+                                ParamValue = receiverUserId
                             }
                         }
                     }

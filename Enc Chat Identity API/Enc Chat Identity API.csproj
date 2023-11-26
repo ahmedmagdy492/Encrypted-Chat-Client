@@ -20,4 +20,10 @@
     <ProjectReference Include="..\EncChatCommonLib\EncChatCommonLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="accounts.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

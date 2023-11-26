@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace EncryptedChatClient.Models
 {
-    public class ClientModel
+    public class ConnectionInfo
     {
         public string ConnectionId { get; set; }
-        public string Name { get; set; }
         public string UserId { get; set; }
     }
 }

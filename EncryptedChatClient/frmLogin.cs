@@ -1,6 +1,7 @@
 ﻿using EncChatCommonLib.Services;
 using EncChatCommonLib.ViewModels;
 using EncryptedChatClient.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,7 +67,8 @@ namespace EncryptedChatClient
                 if(response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     this.Hide();
-                    Form1 form = new Form1(loginViewModel.Email);
+                    loginViewModel.UserId = JsonConvert.DeserializeObject<string>(response.Result);
+                    Form1 form = new Form1(loginViewModel);
                     form.ShowDialog();
                     btn.Enabled = true;
                 }

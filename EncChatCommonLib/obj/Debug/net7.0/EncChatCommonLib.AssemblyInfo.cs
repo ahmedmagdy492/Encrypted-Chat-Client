@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EncChatCommonLib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b8a97d34d06a5c58f16e672328afb0aeb3be002")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c147aec6be969f5526647b0c65de6b33f7c7ae4")]
 [assembly: System.Reflection.AssemblyProductAttribute("EncChatCommonLib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EncChatCommonLib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

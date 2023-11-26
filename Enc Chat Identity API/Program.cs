@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EncChatDB>(opt => opt.UseSqlite("Data Source=accounts.db;Mode=ReadWriteCreate;Cache=Shared"));
@@ -23,7 +24,7 @@ app.MapGet("/users/{id}", async (long id, EncChatDB db)
 app.MapGet("/users/{pageNo}/{pageSize}", async (int pageNo, int pageSize, EncChatDB db) =>
 {
     int pagesToSkip = (pageNo - 1) * pageSize;
-    var users = await db.Users.Select(u => new { u.Name, u.Email }).OrderBy(o => o.Name).Skip(pagesToSkip).Take(pageSize).ToListAsync();
+    var users = await db.Users.Select(u => new { u.Id, u.Name, u.Email }).OrderBy(o => o.Name).Skip(pagesToSkip).Take(pageSize).ToListAsync();
     return Results.Ok(users);
 });
 
@@ -34,7 +35,7 @@ app.MapPost("/login", async (LoginViewModel loginViewModel, EncChatDB db) =>
     if (user.Email != loginViewModel.Email) return Results.BadRequest("Invalid email or password");
     if (user.PasswordHash != loginViewModel.PasswordHash) return Results.BadRequest("Invalid email or password");
 
-    return Results.Ok();
+    return Results.Ok(user.Id);
 });
 
 app.MapPost("/signup", async (User user, EncChatDB db) =>
@@ -60,11 +61,11 @@ app.MapPost("/signup", async (User user, EncChatDB db) =>
                     ClassName = "Program",
                     MethodName = "UserAccountCreated",
                     MethodParams = new List<Parameter> {
-                    new Parameter
-                    {
-                        ParamName = "user",
-                        ParamValue = JsonConvert.SerializeObject(user)
-                    }
+                        new Parameter
+                        {
+                            ParamName = "user",
+                            ParamValue = JsonConvert.SerializeObject(user)
+                        }
                     }
                 }
                 ), SharedConstants.SHARED_KEY);

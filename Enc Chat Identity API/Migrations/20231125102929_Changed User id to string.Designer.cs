@@ -2,6 +2,7 @@
 using Enc_Chat_Identity_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Enc_Chat_Identity_API.Migrations
 {
     [DbContext(typeof(EncChatDB))]
-    partial class EncChatDBModelSnapshot : ModelSnapshot
+    [Migration("20231125102929_Changed User id to string")]
+    partial class ChangedUseridtostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
