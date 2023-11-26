@@ -12,7 +12,7 @@ Is a windows app made using C#, the project consist of 3 main parts; the server,
   <li>Ability to send images (limited to only png and 4 kb images)</li>
 </ul>
 
-<h3>Things to added</h3>
+<h3>Things newly added</h3>
 <ul>
   <li>Now the app is capabable of saving messages on the user computer not on the server</li>
   <li>Now when someone is registered using the api the server will be notified and will add that user to the users list</li>
